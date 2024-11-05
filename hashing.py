@@ -42,7 +42,7 @@ image = Image.open("DeathStar8.png")
 row, col = dhash.dhash_row_col(image)
 
 
-dhash.get_num_bits_different(dhash.dhash_row_colrg(image1), dhash.dhash_row_col(image2))
+# dhash.get_num_bits_different(dhash.dhash_row_colrg(image1), dhash.dhash_row_col(image2))
 
 # Traditional hashing 2 pixles different in each photo
 # 2bd793518de4cdff1ab88b43c8dfdc192b2a402597ff8888db5a685cc1ce69d8 - Death star 1
