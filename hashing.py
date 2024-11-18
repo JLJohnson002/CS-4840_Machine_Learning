@@ -45,7 +45,7 @@ for item in os.listdir(folder_path):
         image1 = Image.open(r"Images\\" + item)
         image2 = Image.open(r"Images\\" + each)
 
-        hashsize = 8
+        hashsize = 1024
 
         phash1 = imagehash.phash(image1, hash_size=hashsize)
         phash2 = imagehash.phash(image2, hash_size=hashsize)
