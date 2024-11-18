@@ -23,29 +23,31 @@ import dhash
 
 
 # Define the directory path (use '.' for the current working directory)
-folder_path = r"c:\Users\Jimmy\Documents\GitHub\CEG4350\CS-4840_Machine_Learning\Images"
+folder_path = r"C:\Users\Jim\Documents\GitHub\CS-4840_Machine_Learning\Images"
 pHigh = -1
 pLow = 111
 dHigh = -1
 dLow = 111
+alreadyCompared = []
 
 # Iterate through each item in the folder
 for item in os.listdir(folder_path):
+    alreadyCompared.append(item)
     # Construct the full path of the item
     item_path = os.path.join(folder_path, item)
     pAve = 0
     dAve = 0
 
-    print("\nComparing " + item)
+    print("\n" + item+" is being compared to :")
 
     for each in os.listdir(folder_path):
-        if each == item:
+        if alreadyCompared.__contains__(each):
             continue
 
         image1 = Image.open(r"Images\\" + item)
         image2 = Image.open(r"Images\\" + each)
 
-        hashsize = 1024
+        hashsize = 64
 
         phash1 = imagehash.phash(image1, hash_size=hashsize)
         phash2 = imagehash.phash(image2, hash_size=hashsize)
@@ -61,30 +63,42 @@ for item in os.listdir(folder_path):
         row, col = dhash.dhash_row_col(image1)
         hash1 = dhash.format_hex(row, col)
 
-        if ((pdifference / totalSize) * 100) < pLow :
-            pLow = ((pdifference / totalSize) * 100)
+        if ((pdifference / totalSize) * 100) < pLow:
+            pLow = (pdifference / totalSize) * 100
 
         if ((pdifference / totalSize) * 100) > pHigh:
-            pHigh = ((pdifference / totalSize) * 100)
+            pHigh = (pdifference / totalSize) * 100
 
-        if ((ddifference / totalSize) * 100) < dLow :
-            dLow = ((ddifference / totalSize) * 100)
+        if ((ddifference / totalSize) * 100) < dLow:
+            dLow = (ddifference / totalSize) * 100
 
         if ((ddifference / totalSize) * 100) > dHigh:
-            dHigh = ((ddifference / totalSize) * 100)
+            dHigh = (ddifference / totalSize) * 100
 
-        pAve += ((pdifference / totalSize) * 100)
-        dAve += ((ddifference / totalSize) * 100)
+        pAve += (pdifference / totalSize) * 100
+        dAve += (ddifference / totalSize) * 100
 
-        print(str((pdifference / totalSize) * 100) + " - \t" +str((ddifference / totalSize) * 100)+" - \t"+ each)
+        print(
+            each 
+            + " - \t"
+            +str((pdifference / totalSize) * 100)
+            + " - \t"
+            + str((ddifference / totalSize) * 100)
+        )
 
-    print("Phash Average - \t"+str(((pAve)/((int(len(os.listdir(folder_path)))-(1))))))
-    print("Phash High - \t"+str(pHigh))
-    print("Phash Low - \t"+str(pLow))
+    print(
+        "\nPhash Average - \t"
+        + str(((pAve) / ((int(len(os.listdir(folder_path))) - (1)))))
+    )
+    print("Phash High - \t" + str(pHigh))
+    print("Phash Low - \t" + str(pLow))
 
-    print("Dhash Average - \t"+str(((dAve)/((int(len(os.listdir(folder_path)))-(1))))))
-    print("Dhash High - \t"+str(dHigh))
-    print("Dhash Low - \t"+str(dLow))
+    print(
+        "Dhash Average - \t"
+        + str(((dAve) / ((int(len(os.listdir(folder_path))) - (1)))))
+    )
+    print("Dhash High - \t" + str(dHigh))
+    print("Dhash Low - \t" + str(dLow))
 
 # image1 = Image.open('image9.png')
 # image2 = Image.open('image13.png')
