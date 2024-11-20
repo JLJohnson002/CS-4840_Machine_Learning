@@ -23,7 +23,7 @@ import dhash
 
 
 # Define the directory path (use '.' for the current working directory)
-folder_path = r"C:\Users\Jim\Documents\GitHub\CS-4840_Machine_Learning\Images"
+folder_path = r"Images"
 pHigh = -1
 pLow = 111
 dHigh = -1
@@ -38,7 +38,7 @@ for item in os.listdir(folder_path):
     pAve = 0
     dAve = 0
 
-    print("\n" + item+" is being compared to :")
+    print("\n" + item + " is being compared to :")
 
     for each in os.listdir(folder_path):
         if alreadyCompared.__contains__(each):
@@ -79,26 +79,26 @@ for item in os.listdir(folder_path):
         dAve += (ddifference / totalSize) * 100
 
         print(
-            each 
+            each
             + " - \t"
-            +str((pdifference / totalSize) * 100)
+            + str((f"{(pdifference / totalSize) * 100:.4f}"))
             + " - \t"
-            + str((ddifference / totalSize) * 100)
+            + str((f"{(ddifference / totalSize) * 100:.4f}"))
         )
 
-    print(
-        "\nPhash Average - \t"
-        + str(((pAve) / ((int(len(os.listdir(folder_path))) - (1)))))
-    )
-    print("Phash High - \t" + str(pHigh))
-    print("Phash Low - \t" + str(pLow))
+print(
+    "\nPhash Average - \t"
+    + str(((pAve) / ((int(len(os.listdir(folder_path))) - (1)))))
+)
+print("Phash High - \t\t" + str(pHigh))
+print("Phash Low - \t\t" + str(pLow))
 
-    print(
-        "Dhash Average - \t"
-        + str(((dAve) / ((int(len(os.listdir(folder_path))) - (1)))))
-    )
-    print("Dhash High - \t" + str(dHigh))
-    print("Dhash Low - \t" + str(dLow))
+print(
+    "Dhash Average - \t"
+    + str(((dAve) / ((int(len(os.listdir(folder_path))) - (1)))))
+)
+print("Dhash High - \t\t" + str(dHigh))
+print("Dhash Low - \t\t" + str(dLow))
 
 # image1 = Image.open('image9.png')
 # image2 = Image.open('image13.png')
