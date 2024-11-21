@@ -4,7 +4,9 @@ import os
 
 
 folder_path = r"Images"
+itter = 0
 for item in os.listdir(folder_path):
+
     model = torch.hub.load('ultralytics/yolov5', 'yolov5s', pretrained=True)
 
     # Images
@@ -25,4 +27,5 @@ for item in os.listdir(folder_path):
     for i, (*box, conf, cls) in enumerate(results.xyxy[0]):  # xyxy format
         x1, y1, x2, y2 = map(int, box[:4])  # Extract bounding box
         cropped_img = ori_img.crop((x1, y1, x2, y2))  # Crop region
-        cropped_img.convert("RGB").save(f"cropped_{i}.jpg")  # Save the cropped image
+        cropped_img.convert("RGB").save(f"{itter}cropped_{i}.jpg")  # Save the cropped image
+    itter += 1
