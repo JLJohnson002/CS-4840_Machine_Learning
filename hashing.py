@@ -23,7 +23,7 @@ import dhash
 
 
 # Define the directory path (use '.' for the current working directory)
-folder_path = r"Images"
+folder_path = r"Identified Images"
 pHigh = -1
 pLow = 111
 dHigh = -1
@@ -44,10 +44,10 @@ for item in os.listdir(folder_path):
         if alreadyCompared.__contains__(each):
             continue
 
-        image1 = Image.open(r"Images\\" + item)
-        image2 = Image.open(r"Images\\" + each)
+        image1 = Image.open(r"Identified Images\\" + item)
+        image2 = Image.open(r"Identified Images\\" + each)
 
-        hashsize = 64
+        hashsize = 1024
 
         phash1 = imagehash.phash(image1, hash_size=hashsize)
         phash2 = imagehash.phash(image2, hash_size=hashsize)

@@ -15,7 +15,7 @@ for item in os.listdir(folder_path):
 
     # Inference
     model.conf = 0.2
-    results = model(item_path, size=320)
+    results = model(item_path, size=1024) #old was 320
 
     # Results
     # results.show()  # or .show(), .save(), .crop(), .pandas(), etc.
