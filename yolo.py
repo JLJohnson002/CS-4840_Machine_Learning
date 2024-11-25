@@ -16,10 +16,7 @@ for item in os.listdir(folder_path):
 
     # Inference
     model.conf = 0.2
-<<<<<<< HEAD
 
-=======
->>>>>>> parent of 230d9eb (all images processed)
     results = model(item_path, size=320)
 
     # Results
