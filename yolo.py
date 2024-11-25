@@ -16,11 +16,24 @@ for item in os.listdir(folder_path):
 
     # Inference
     model.conf = 0.2
+<<<<<<< HEAD
+    results = model(item_path, size=320) #old was 320
 
+    boxes = results.xyxy[0].cpu().numpy()  # Get bounding boxes [x1, y1, x2, y2, confidence, class_id]
+    centers = [[1,1]]
+    knn = NearestNeighbors(n_neighbors=3, algorithm='auto', metric='euclidean')
+    knn.fit(centers)
+=======
     results = model(item_path, size=320)
+>>>>>>> parent of 230d9eb (all images processed)
 
     # Results
-    #results.show()  # or .show(), .save(), .crop(), .pandas(), etc.
+    results.show()  # or .show(), .save(), .crop(), .pandas(), etc.
+
+    for i, box in enumerate(boxes):
+            distances, indices = knn.kneighbors([centers[i]])
+            print(f"Bounding box {i}: Neighbors -> {indices[0]}, Distances -> {distances[0]}")
+
 
     # Load the original image
     ori_img = Image.open(item_path)
