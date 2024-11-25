@@ -1,7 +1,8 @@
 import torch
 from PIL import Image
 import os
-
+import numpy as np
+from sklearn.neighbors import NearestNeighbors
 
 folder_path = r"Images"
 itter = 0
@@ -11,14 +12,23 @@ for item in os.listdir(folder_path):
 
     # Images
     item_path = os.path.join(folder_path, item)
-    # img = "Images\DeathStar3.jpeg"  # or file, Path, PIL, OpenCV, numpy, list
+
 
     # Inference
     model.conf = 0.2
-    results = model(item_path, size=1024) #old was 320
+    results = model(item_path, size=320) #old was 320
+
+    boxes = results.xyxy[0].cpu().numpy()  # Get bounding boxes [x1, y1, x2, y2, confidence, class_id]
+    centers = [[1,1]]
+    knn = NearestNeighbors(n_neighbors=3, algorithm='auto', metric='euclidean')
+    knn.fit(centers)
 
     # Results
-    # results.show()  # or .show(), .save(), .crop(), .pandas(), etc.
+    results.show()  # or .show(), .save(), .crop(), .pandas(), etc.
+
+    for i, box in enumerate(boxes):
+            distances, indices = knn.kneighbors([centers[i]])
+            print(f"Bounding box {i}: Neighbors -> {indices[0]}, Distances -> {distances[0]}")
 
 
     # Load the original image
