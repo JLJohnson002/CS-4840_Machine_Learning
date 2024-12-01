@@ -83,6 +83,8 @@ def predict_image(image_path):
         return le.inverse_transform(prediction)[0]  # Return the predicted class label
 
 # Example: Predict a new image
-new_image_path = "path_to_new_image.jpg"
-predicted_label = predict_image(new_image_path)
-print(f"Predicted Label: {predicted_label}")
+for each in os.listdir("Cropped Images\\Death Star"):
+    # print (each)
+    new_image_path = "Cropped Images\\Death Star\\"+str(each)
+    predicted_label = predict_image(new_image_path)
+    print(f"Predicted Label {new_image_path}: {predicted_label}")
