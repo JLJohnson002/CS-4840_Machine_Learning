@@ -69,9 +69,10 @@ print(f"Accuracy on test set: {accuracy * 100:.2f}%")
 #         f"Predicted Label: {'Death Star' if y_pred[0] == 1 else 'NOT Death Star'}"
 #     )
 #     plt.show()
+
 loop = 0
 for each in range(len(X_test)):
-    if y_pred[loop] == 0:
+    if y_pred[loop] == 1:
         plt.imshow(
             X_test[each].reshape(image_size[0], image_size[1], 3)
         )  # Reshape to 64x64x3 for display
