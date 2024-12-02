@@ -53,7 +53,7 @@ print ("scaled")
 # Use PCA to reduce the dimensionality if necessary (e.g., for large image sizes)
 pca = PCA(n_components=50)  # You can adjust the number of components
 X_pca = pca.fit_transform(X_scaled)
-print ("fit")
+print ("pca")
 
 # Split the dataset into training and testing sets
 X_train, X_test, y_train, y_test = train_test_split(X_pca, y_encoded, test_size=0.2, random_state=42)
@@ -65,12 +65,16 @@ print ("init")
 
 # Train the KNN classifier
 knn.fit(X_train, y_train)
+print ("fit")
 
 # Make predictions
 y_pred = knn.predict(X_test)
+print ("predicted")
 
 # Print classification report to evaluate performance
+print("report start")
 print(classification_report(y_test, y_pred, target_names=le.classes_))
+print("report end")
 
 # To predict a new image, use the following:
 def predict_image(image_path):
