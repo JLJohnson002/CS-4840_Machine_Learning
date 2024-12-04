@@ -6,6 +6,8 @@ from sklearn.metrics import accuracy_score
 from PIL import Image
 import matplotlib.pyplot as plt
 
+print("start")#FIXME
+
 # Path to the dataset folder
 dataset_path = "Cropped Images"
 # dataset_path = "Images"
@@ -26,7 +28,7 @@ for filename in os.listdir(death_star_folder):
     img = np.array(img)  # Convert image to numpy array
     X.append(img.flatten())  # Flatten and append to features list
     y.append(1)  # Label "Death Star" as 1
-
+print("death star folder created")#FIXME
 # Load images from the "NOT Death Star" folder (label = 0)
 not_death_star_folder = os.path.join(dataset_path, "NOT Death Star")
 for filename in os.listdir(not_death_star_folder):
@@ -36,7 +38,8 @@ for filename in os.listdir(not_death_star_folder):
     img = np.array(img)  # Convert image to numpy array
     X.append(img.flatten())  # Flatten and append to features list
     y.append(0)  # Label "NOT Death Star" as 0
-
+print("NOT death star folder created")#FIXME
+print(X)#FIXME
 # Convert lists to numpy arrays for training
 X = np.array(X)
 y = np.array(y)
