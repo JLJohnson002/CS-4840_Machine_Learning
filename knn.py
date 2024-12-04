@@ -35,6 +35,7 @@ def load_images_from_folder(folder):
 
 # Path to your image folder (where each subfolder is a class)
 image_folder = "Cropped Images"
+# image_folder = "Images"
 
 # Load images and labels
 X, y = load_images_from_folder(image_folder)
@@ -51,16 +52,16 @@ X_scaled = scaler.fit_transform(X,y)
 print ("scaled")
 
 # Use PCA to reduce the dimensionality if necessary (e.g., for large image sizes)
-pca = PCA(n_components=50)  # You can adjust the number of components
+pca = PCA(n_components=25)  # You can adjust the number of components
 X_pca = pca.fit_transform(X_scaled)
 print ("pca")
 
 # Split the dataset into training and testing sets
-X_train, X_test, y_train, y_test = train_test_split(X_pca, y_encoded, test_size=0.2, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(X_pca, y_encoded, test_size=0.1, random_state=42)
 print ("split")
 
 # Initialize KNN classifier
-knn = KNeighborsClassifier(n_neighbors=3)  # You can tune the number of neighbors
+knn = KNeighborsClassifier(n_neighbors=5)  # You can tune the number of neighbors
 print ("init")
 
 # Train the KNN classifier
@@ -87,8 +88,8 @@ def predict_image(image_path):
         return le.inverse_transform(prediction)[0]  # Return the predicted class label
 
 # Example: Predict a new image
-for each in os.listdir("Cropped Images\\Death Star"):
-    # print (each)
-    new_image_path = "Cropped Images\\Death Star\\"+str(each)
-    predicted_label = predict_image(new_image_path)
-    print(f"Predicted Label {new_image_path}: {predicted_label}")
+# for each in os.listdir("Cropped Images\\Death Star"):
+#     # print (each)
+#     new_image_path = "Cropped Images\\Death Star\\"+str(each)
+#     predicted_label = predict_image(new_image_path)
+#     print(f"Predicted Label {new_image_path}: {predicted_label}")

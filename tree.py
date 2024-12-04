@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 
 # Path to the dataset folder
 dataset_path = "Cropped Images"
+# dataset_path = "Images"
 
 # Set image dimensions
 image_size = (64, 64)  # Resize to 64x64 pixels
