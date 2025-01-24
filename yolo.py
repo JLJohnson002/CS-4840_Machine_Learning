@@ -3,7 +3,7 @@ from PIL import Image
 import os
 
 
-folder_path = r"Images"
+folder_path = r"Cropped Images/Not Death Star"
 print_path = r"Identified Images"
 itter = 0
 for item in os.listdir(folder_path):

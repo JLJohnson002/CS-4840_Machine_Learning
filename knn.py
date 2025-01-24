@@ -18,6 +18,7 @@ def extract_features(image):
     # Flatten the image to a 1D vector (128x128x3 pixels)
     return image.flatten()
 
+
 # Function to load images and labels from a folder
 def load_images_from_folder(folder):
     images = []
@@ -34,7 +35,7 @@ def load_images_from_folder(folder):
     return np.array(images), np.array(labels)
 
 # Path to your image folder (where each subfolder is a class)
-image_folder = "Cropped Images"
+image_folder = "Mixed Images"
 # image_folder = "Images"
 
 # Load images and labels

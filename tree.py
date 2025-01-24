@@ -8,9 +8,10 @@ import matplotlib.pyplot as plt
 
 print("start")#FIXME
 
-# Path to the dataset folder
-dataset_path = "Cropped Images"
-# dataset_path = "Images"
+# Path to the dataset folder (Pick one)
+# dataset_path = "Combined Images"
+# dataset_path = "Cropped Images"
+dataset_path = "Images"
 
 # Set image dimensions
 image_size = (64, 64)  # Resize to 64x64 pixels
@@ -29,6 +30,7 @@ for filename in os.listdir(death_star_folder):
     X.append(img.flatten())  # Flatten and append to features list
     y.append(1)  # Label "Death Star" as 1
 print("death star folder created")#FIXME
+
 # Load images from the "NOT Death Star" folder (label = 0)
 not_death_star_folder = os.path.join(dataset_path, "NOT Death Star")
 for filename in os.listdir(not_death_star_folder):
