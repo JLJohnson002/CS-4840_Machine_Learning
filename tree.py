@@ -7,14 +7,15 @@ from PIL import Image
 import matplotlib.pyplot as plt
 
 print("start")#FIXME
-
+os.system('cls') #FIXME
 # Path to the dataset folder (Pick one)
 # dataset_path = "Combined Images"
-# dataset_path = "Cropped Images"
-dataset_path = "Images"
+dataset_path = "Cropped Images"
+# dataset_path = "Images"
 
 # Set image dimensions
-image_size = (64, 64)  # Resize to 64x64 pixels
+# image_size = (512, 512) # Resize to 64x64 pixels
+image_size = (300,300) # Resize to 64x64 pixels
 
 # Initialize lists for data (features) and labels
 X = []  # Features (flattened image data)
@@ -30,6 +31,8 @@ for filename in os.listdir(death_star_folder):
     X.append(img.flatten())  # Flatten and append to features list
     y.append(1)  # Label "Death Star" as 1
 print("death star folder created")#FIXME
+# print (X) #fixme
+# print (y) #fixme
 
 # Load images from the "NOT Death Star" folder (label = 0)
 not_death_star_folder = os.path.join(dataset_path, "NOT Death Star")
@@ -41,7 +44,8 @@ for filename in os.listdir(not_death_star_folder):
     X.append(img.flatten())  # Flatten and append to features list
     y.append(0)  # Label "NOT Death Star" as 0
 print("NOT death star folder created")#FIXME
-print(X)#FIXME
+# print(X)#FIXME
+
 # Convert lists to numpy arrays for training
 X = np.array(X)
 y = np.array(y)
@@ -52,12 +56,15 @@ X_train, X_test, y_train, y_test = train_test_split(
 )
 
 # Initialize the decision tree classifier with max_depth = 7
+print ('Initializing')
 clf = DecisionTreeClassifier(max_depth=7, random_state=42)
 
 # Train the classifier
+print ('Fitting')
 clf.fit(X_train, y_train)
 
 # Make predictions on the test set
+print ('Predicting')
 y_pred = clf.predict(X_test)
 
 # Evaluate the model

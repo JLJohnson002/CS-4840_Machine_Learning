@@ -14,7 +14,7 @@ def extract_features(image):
     # Convert the image to RGB (in case it's in BGR)
     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     # Resize the image for consistency
-    image = cv2.resize(image, (128, 128))  # Resizing to 128x128 for simplicity
+    image = cv2.resize(image, (512,512))  # Resizing to 128x128 for simplicity
     # Flatten the image to a 1D vector (128x128x3 pixels)
     return image.flatten()
 
@@ -32,15 +32,21 @@ def load_images_from_folder(folder):
                 if image is not None:
                     images.append(extract_features(image))
                     labels.append(label)
+    print (len(images))
+    print (len(labels))
     return np.array(images), np.array(labels)
 
+os.system('cls')
+
 # Path to your image folder (where each subfolder is a class)
-image_folder = "Mixed Images"
+# image_folder = "Mixed Images"
 # image_folder = "Images"
+image_folder = "Cropped Images"
 
 # Load images and labels
 X, y = load_images_from_folder(image_folder)
 print ("loaded")
+
 
 # Encode the labels into integers
 le = LabelEncoder()
@@ -53,7 +59,7 @@ X_scaled = scaler.fit_transform(X,y)
 print ("scaled")
 
 # Use PCA to reduce the dimensionality if necessary (e.g., for large image sizes)
-pca = PCA(n_components=25)  # You can adjust the number of components
+pca = PCA(n_components=1)  # You can adjust the number of components
 X_pca = pca.fit_transform(X_scaled)
 print ("pca")
 
@@ -62,7 +68,7 @@ X_train, X_test, y_train, y_test = train_test_split(X_pca, y_encoded, test_size=
 print ("split")
 
 # Initialize KNN classifier
-knn = KNeighborsClassifier(n_neighbors=5)  # You can tune the number of neighbors
+knn = KNeighborsClassifier(n_neighbors=1)  # You can tune the number of neighbors
 print ("init")
 
 # Train the KNN classifier
