@@ -31,7 +31,7 @@ for item in os.listdir(folder_path):
     results = model(item_path, size=320) #old was 320
 
     # Results
-    results.show()  # or .show(), .save(), .crop(), .pandas(), etc.
+    # results.show()  # or .show(), .save(), .crop(), .pandas(), etc.
 
     # Load the original image
     ori_img = Image.open(item_path)
@@ -40,7 +40,9 @@ for item in os.listdir(folder_path):
         cropped_img = ori_img.crop((x1, y1, x2, y2))  # Crop region
         cropped_img.convert("RGB").save(f"{item[:-4]}_cropped_{i}.png")  # Save the cropped image
     itter += 1
-
+# os.rename("path/to/current/file.foo", "path/to/new/destination/for/file.foo")
+# os.replace("path/to/current/file.foo", "path/to/new/destination/for/file.foo")
+# shutil.move("path/to/current/file.foo", "path/to/new/destination/for/file.foo")
 print ("\n YOLO FINISHED\n")
 
 # Define a function to extract features (for example, using color histograms)
