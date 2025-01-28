@@ -59,7 +59,7 @@ X_scaled = scaler.fit_transform(X,y)
 print ("scaled")
 
 # Use PCA to reduce the dimensionality if necessary (e.g., for large image sizes)
-pca = PCA(n_components=1)  #ADJUST You can adjust the number of components
+pca = PCA(n_components=64)  #ADJUST You can adjust the number of components
 X_pca = pca.fit_transform(X_scaled)
 print ("pca")
 

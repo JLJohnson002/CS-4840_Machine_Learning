@@ -14,7 +14,7 @@ from matplotlib import pyplot as plt
 
 os.system('cls')#FIXME
 
-folder_path = r"Cropped Images/Not Death Star"
+folder_path = r"TrainImages/Death Star"
 print_path = r"Identified Images"
 itter = 0
 
@@ -31,7 +31,7 @@ for item in os.listdir(folder_path):
     results = model(item_path, size=320) #old was 320
 
     # Results
-    # results.show()  # or .show(), .save(), .crop(), .pandas(), etc.
+    results.show()  # or .show(), .save(), .crop(), .pandas(), etc.
 
     # Load the original image
     ori_img = Image.open(item_path)
@@ -74,7 +74,7 @@ def load_images_from_folder(folder):
 # Path to your image folder (where each subfolder is a class)
 # image_folder = "Mixed Images"
 # image_folder = "Images"
-image_folder = "Cropped Images"
+image_folder = "TrainImages"
 
 # Load images and labels
 X, y = load_images_from_folder(image_folder)
@@ -97,7 +97,7 @@ X_pca = pca.fit_transform(X_scaled)
 print ("pca")
 
 # Split the dataset into training and testing sets
-X_train, X_test, y_train, y_test = train_test_split(X_pca, y_encoded, test_size=0.1, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(X_pca, y_encoded, test_size=0.0, random_state=42)
 print ("split")
 
 # Initialize KNN classifier
