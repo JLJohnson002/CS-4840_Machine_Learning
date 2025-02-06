@@ -11,6 +11,10 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
 from matplotlib import pyplot as plt
+import matplotlib.pyplot as plt
+import pandas as pd
+from sklearn import datasets, neighbors
+from sklearn.model_selection import train_test_split
 
 os.system("cls")  # FIXME
 
@@ -29,7 +33,7 @@ if runYOLO:
 
         # Inference
         model.conf = 0.2  # ADJUST
-        results = model(item_path, size=320)  # old was 320  #ADJUST
+        results = model(item_path, size=320)  # old was 320                                 #ADJUST
 
         # Load the original image
         ori_img = Image.open(item_path)
@@ -48,7 +52,7 @@ def extract_features(image):
     # Convert the image to RGB (in case it's in BGR)
     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     # Resize the image for consistency
-    image = cv2.resize(image, (512, 512))  # ADJUST Resizing to 128x128 for simplicity
+    image = cv2.resize(image, (512, 512))                    # ADJUST Resizing to 128x128 for simplicity
     # Flatten the image to a 1D vector (128x128x3 pixels)
     return image.flatten()
 
@@ -90,7 +94,10 @@ X_scaled = scaler.fit_transform(X, y)
 print("scaled")
 
 # Use PCA to reduce the dimensionality if necessary (e.g., for large image sizes)
-pca = PCA(n_components=12)  # ADJUST You can adjust the number of components
+pca = PCA(n_components=2)                               # ADJUST You can adjust the number of components
+print ("PCA IS \n")
+print (pca)
+print (PCA)
 X_pca = pca.fit_transform(X_scaled)
 print("pca")
 
@@ -101,7 +108,7 @@ X_train, X_test, y_train, y_test = train_test_split(
 print("split")
 
 # Initialize KNN classifier
-knn = KNeighborsClassifier(n_neighbors=1)  # ADJUST You can tune the number of neighbors
+knn = KNeighborsClassifier(n_neighbors=2)                   # ADJUST You can tune the number of neighbors
 print("init")
 
 # Train the KNN classifier
@@ -138,3 +145,19 @@ for each in os.listdir("CroppedTrainImages\\Death Star"):
         print(f"Predicted Label {new_image_path}: {predicted_label}")
         wrongCount += 1
 print (f"Wrong Count = {wrongCount}")
+
+# Step 5: Visualize the decision regions of the trained KNN model
+from mlxtend.plotting import plot_decision_regions
+
+new_x = np.array([[5.0, 3.0]])
+new_y = knn.predict(new_x)
+
+# Plot the original data
+plt.scatter(X[:, 0], X[:, 1], c=y)
+
+# Plot the new data point
+plt.scatter(new_x[0, 0], new_x[0, 1], c='red', marker='x', s=100)
+plt.xlabel('Feature 1')
+plt.ylabel('Feature 2')
+plt.title('KNN Scatter Plot')
+plt.show()
