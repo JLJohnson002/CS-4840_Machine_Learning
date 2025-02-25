@@ -68,7 +68,7 @@ print("pca")
 
 # Split the dataset into training and testing sets
 X_train, X_test, y_train, y_test = train_test_split(
-    X_pca, y_encoded, test_size=0.1, random_state=42
+    X_pca, y_encoded, test_size=None, random_state=42
 )
 print("split")
 
@@ -101,55 +101,56 @@ def predict_image(image_path):
         return le.inverse_transform(prediction)[0]  # Return the predicted class label
 
 
-from mlxtend.plotting import plot_decision_regions
+# from mlxtend.plotting import plot_decision_regions
 
-selected_features = [0, 1]  # Choosing the first two PCA components for visualization
+# selected_features = [0, 1]  # Choosing the first two PCA components for visualization
 
-# Generate filler values (mean of each remaining feature)
-filler_values = np.mean(X_pca, axis=0)  # Mean of each PCA feature
-filler_feature_values = {i: filler_values[i] for i in range(2, 12)}
+# # Generate filler values (mean of each remaining feature)
+# filler_values = np.mean(X_pca, axis=0)  # Mean of each PCA feature
+# filler_feature_values = {i: filler_values[i] for i in range(2, 12)}
 
-filler_ranges = {
-    i: (X_pca[:, i].min(), X_pca[:, i].max()) for i in range(2, 12)
-}  # Range for other features
-filler_feature_ranges = {i: (np.min(X_pca[:, i]), np.max(X_pca[:, i])) for i in range(2, 12)}
+# filler_ranges = {
+#     i: (X_pca[:, i].min(), X_pca[:, i].max()) for i in range(2, 12)
+# }  # Range for other features
+# filler_feature_ranges = {i: (np.min(X_pca[:, i]), np.max(X_pca[:, i])) for i in range(2, 12)}
 
-# 6. Plot decision regions
-plt.figure(figsize=(8, 6))
+# # 6. Plot decision regions
+# plt.figure(figsize=(8, 6))
 
 # plot_decision_regions(
 #     X_train,
 #     y_train,
-#     filler_feature_values=filler_values,
-#     feature_index=selected_features,
-#     filler_feature_ranges=filler_ranges,
 #     clf=knn,
 #     legend=2,
+#     X_highlight=None,  # Optional: highlight test samples
+#     feature_index=selected_features,  # Select 2 PCA components
+#     filler_feature_values=filler_values,  # Mean values for non-plotted dimensions
+#     filler_feature_ranges=filler_ranges,  # Min-max range for non-plotted dimensions
 # )
-plot_decision_regions(
-    X_train,
-    y_train,
-    clf=knn,
-    legend=2,
-    X_highlight=None,  # Optional: highlight test samples
-    feature_index=selected_features,  # Select 2 PCA components
-    filler_feature_values=filler_values,  # Mean values for non-plotted dimensions
-    filler_feature_ranges=filler_ranges,  # Min-max range for non-plotted dimensions
-)
-# Step 6: Label the axes and add a title to the plot
-plt.xlabel("X")
-plt.ylabel("Y")
-plt.title("KNN with K=5")
+# # Step 6: Label the axes and add a title to the plot
+# plt.xlabel("X")
+# plt.ylabel("Y")
+# plt.title("KNN with K=5")
 
-# Step 7: Save the plot as an image file with tight bounding box and high resolution (150 dpi)
-plt.savefig("KNN with K=5.jpeg", bbox_inches="tight", dpi=150)
+# # Step 7: Save the plot as an image file with tight bounding box and high resolution (150 dpi)
+# plt.savefig("KNN with K=5.jpeg", bbox_inches="tight", dpi=150)
 
-# Step 8: Display the plot
-plt.show()
+# # Step 8: Display the plot
+# plt.show()
+running = True
 
-# Example: Predict a new image
-# for each in os.listdir("Cropped Images\\Death Star"):
-#     # print (each)
-#     new_image_path = "Cropped Images\\Death Star\\"+str(each)
-#     predicted_label = predict_image(new_image_path)
-#     print(f"Predicted Label {new_image_path}: {predicted_label}")
+while running:
+    folder_path = input("What is the folder path? ")
+    wrong_count = 0
+
+    for each in os.listdir(folder_path):
+        new_image_path = folder_path + str(each)
+        predicted_label = predict_image(new_image_path)
+
+        if predicted_label != folder_path[19:-1:]:
+            wrong_count +=1
+            print(new_image_path)
+
+        # print(f"Predicted Label {new_image_path}: {predicted_label}")
+    if input("Do you want to test more? ") == "n":
+        running = False
