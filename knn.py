@@ -12,11 +12,12 @@ from sklearn import datasets, neighbors
 
 
 # Define a function to extract features (for example, using color histograms)
+image_size = 128
 def extract_features(image):
     # Convert the image to RGB (in case it's in BGR)
     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     # Resize the image for consistency
-    image = cv2.resize(image, (512, 512))  # ADJUST Resizing to 128x128 for simplicity
+    image = cv2.resize(image, (image_size, image_size))  # ADJUST Resizing to 128x128 for simplicity
     # Flatten the image to a 1D vector (128x128x3 pixels)
     return image.flatten()
 
@@ -93,7 +94,7 @@ print("predicted")
 print("report start")
 print(classification_report(y_test, y_pred, target_names=le.classes_))
 print("report end")
-
+print("The following are incorrect")
 
 # To predict a new image, use the following:
 def predict_image(image_path):
@@ -150,11 +151,53 @@ while running:
     wrong_count = 0
     # Use PCA to reduce the dimensionality if necessary (e.g., for large image sizes)
     
-    components = int(input ("Compontents 12 high: ")) #ADJUST 12 high 19 max
-    test_size_decimal = float(input ("Test Size: ")) #ADJUST
-    number_of_neighbors = int(input("Neighbors: "))
-    if str(components) == "n":
-        running = False
+    components = int(input ("Compontents 5 high: ")) #ADJUST 12 high 19 max
+    # test_size_decimal = float(input ("Test Size: ")) #ADJUST
+    test_size_decimal = None #ADJUST
+    number_of_neighbors = int(input("Neighbors 1 high: "))
+    
+    pca = PCA(n_components=components)  # ADJUST You can adjust the number of components
+    X_pca = pca.fit_transform(X_scaled)
+    print("pca")
+
+    # Split the dataset into training and testing sets
+    X_train, X_test, y_train, y_test = train_test_split(
+        X_pca, y_encoded, test_size=test_size_decimal, random_state=42
+    )
+    print("split")
+
+    # Initialize KNN classifier
+    knn = KNeighborsClassifier(n_neighbors=number_of_neighbors)  # ADJUST You can tune the number of neighbors
+    print("init")
+
+    # Train the KNN classifier
+    knn.fit(X_train, y_train)
+    print("fit")
+
+    # Make predictions
+    y_pred = knn.predict(X_test)
+    print("predicted")
+
+    # Print classification report to evaluate performance
+    print("report start")
+    print(classification_report(y_test, y_pred, target_names=le.classes_))
+    print("report end")
+    print("The following are incorrect")
+    print ()
+    for each in os.listdir(folder_path):
+        new_image_path = folder_path + str(each)
+        predicted_label = predict_image(new_image_path)
+
+        if predicted_label != folder_path[19:-1:]:
+            wrong_count +=1
+            print(new_image_path)
+
+        # print(f"Predicted Label {new_image_path}: {predicted_label}")
+    print ()
+    
+    # folder_path = input("What is the folder path? ")
+    folder_path = "CroppedTrainImages\\NOT Death Star\\"
+    # Use PCA to reduce the dimensionality if necessary (e.g., for large image sizes)
     
     pca = PCA(n_components=components)  # ADJUST You can adjust the number of components
     X_pca = pca.fit_transform(X_scaled)
