@@ -44,7 +44,9 @@ os.system("cls")
 # Path to your image folder (where each subfolder is a class)
 # image_folder = "Mixed Images"
 # image_folder = "Images"
+
 image_folder = "CroppedTrainImages"
+# image_folder = "OriginlTrainImages"
 
 # Load images and labels
 X, y = load_images_from_folder(image_folder)
@@ -62,18 +64,21 @@ X_scaled = scaler.fit_transform(X, y)
 print("scaled")
 
 # Use PCA to reduce the dimensionality if necessary (e.g., for large image sizes)
-pca = PCA(n_components=12)  # ADJUST You can adjust the number of components
+components = 12 #ADJUST
+pca = PCA(n_components=components)  # ADJUST You can adjust the number of components
 X_pca = pca.fit_transform(X_scaled)
 print("pca")
 
 # Split the dataset into training and testing sets
+test_size_decimal = 0.1 #ADJUST
 X_train, X_test, y_train, y_test = train_test_split(
-    X_pca, y_encoded, test_size=None, random_state=42
+    X_pca, y_encoded, test_size=test_size_decimal, random_state=42
 )
 print("split")
 
 # Initialize KNN classifier
-knn = KNeighborsClassifier(n_neighbors=2)  # ADJUST You can tune the number of neighbors
+number_of_neighbors = 2
+knn = KNeighborsClassifier(n_neighbors=number_of_neighbors)  # ADJUST You can tune the number of neighbors
 print("init")
 
 # Train the KNN classifier
@@ -140,9 +145,45 @@ def predict_image(image_path):
 running = True
 
 while running:
-    folder_path = input("What is the folder path? ")
+    # folder_path = input("What is the folder path? ")
+    folder_path = "CroppedTrainImages\\Death Star\\"
     wrong_count = 0
+    # Use PCA to reduce the dimensionality if necessary (e.g., for large image sizes)
+    
+    components = int(input ("Compontents 12 high: ")) #ADJUST 12 high 19 max
+    test_size_decimal = float(input ("Test Size: ")) #ADJUST
+    number_of_neighbors = int(input("Neighbors: "))
+    if str(components) == "n":
+        running = False
+    
+    pca = PCA(n_components=components)  # ADJUST You can adjust the number of components
+    X_pca = pca.fit_transform(X_scaled)
+    print("pca")
 
+    # Split the dataset into training and testing sets
+    X_train, X_test, y_train, y_test = train_test_split(
+        X_pca, y_encoded, test_size=test_size_decimal, random_state=42
+    )
+    print("split")
+
+    # Initialize KNN classifier
+    knn = KNeighborsClassifier(n_neighbors=number_of_neighbors)  # ADJUST You can tune the number of neighbors
+    print("init")
+
+    # Train the KNN classifier
+    knn.fit(X_train, y_train)
+    print("fit")
+
+    # Make predictions
+    y_pred = knn.predict(X_test)
+    print("predicted")
+
+    # Print classification report to evaluate performance
+    print("report start")
+    print(classification_report(y_test, y_pred, target_names=le.classes_))
+    print("report end")
+    print("The following are incorrect")
+    print ()
     for each in os.listdir(folder_path):
         new_image_path = folder_path + str(each)
         predicted_label = predict_image(new_image_path)
@@ -152,5 +193,7 @@ while running:
             print(new_image_path)
 
         # print(f"Predicted Label {new_image_path}: {predicted_label}")
-    if input("Do you want to test more? ") == "n":
-        running = False
+    print ()
+
+
+    print ("Wrong count is "+str(wrong_count))
