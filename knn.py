@@ -150,12 +150,12 @@ while running:
     folder_path = "CroppedTrainImages\\Death Star\\"
     wrong_count = 0
     # Use PCA to reduce the dimensionality if necessary (e.g., for large image sizes)
-    
+
     components = int(input ("Compontents 5 high: ")) #ADJUST 12 high 19 max
     # test_size_decimal = float(input ("Test Size: ")) #ADJUST
     test_size_decimal = None #ADJUST
     number_of_neighbors = int(input("Neighbors 1 high: "))
-    
+
     pca = PCA(n_components=components)  # ADJUST You can adjust the number of components
     X_pca = pca.fit_transform(X_scaled)
     print("pca")
@@ -194,11 +194,11 @@ while running:
 
         # print(f"Predicted Label {new_image_path}: {predicted_label}")
     print ()
-    
+
     # folder_path = input("What is the folder path? ")
     folder_path = "CroppedTrainImages\\NOT Death Star\\"
     # Use PCA to reduce the dimensionality if necessary (e.g., for large image sizes)
-    
+
     pca = PCA(n_components=components)  # ADJUST You can adjust the number of components
     X_pca = pca.fit_transform(X_scaled)
     print("pca")
