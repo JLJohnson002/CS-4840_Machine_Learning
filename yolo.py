@@ -3,12 +3,16 @@ from PIL import Image
 import os
 
 
-folder_path = r"Cropped Images/Not Death Star"
+folder_path = r"OriginlTrainImages/Death Star"
 print_path = r"Identified Images"
 itter = 0
 for item in os.listdir(folder_path):
 
     model = torch.hub.load('ultralytics/yolov5', 'yolov5s', pretrained=True)
+    # s 18 cropped images
+    # m 15
+    # l 14
+    # x 12
 
     # Images
     item_path = os.path.join(folder_path, item)
