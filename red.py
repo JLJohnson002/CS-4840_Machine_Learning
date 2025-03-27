@@ -40,14 +40,24 @@ def detect_red_circles(image_path, output_name):
             cv2.rectangle(output, (x-2, y-2), (x+2, y+2), (0, 128, 255), -1)
 
             # Crop and save circular region with transparency
-            x1, y1, x2, y2 = x - r, y - r, x + r, y + r
+            padding = 4
+            height, width = img.shape[:2]
+
+            x1 = max(x - r - padding, 0)
+            y1 = max(y - r - padding, 0)
+            x2 = min(x + r + padding, width)
+            y2 = min(y + r + padding, height)
             crop = img[max(y1, 0):y2, max(x1, 0):x2]
 
+
+
             # Create circular mask
+            offset_x = x - max(x1, 0)
+            offset_y = y - max(y1, 0)
+
             height, width = crop.shape[:2]
             mask = np.zeros((height, width), dtype=np.uint8)
-            cv2.circle(mask, (width // 2, height // 2), min(width, height) // 2, 255, -1)
-
+            cv2.circle(mask, (offset_x, offset_y), r + padding, 255, -1)
             # Apply mask to crop
             crop_bgra = cv2.cvtColor(crop, cv2.COLOR_BGR2BGRA)
             crop_bgra[:, :, 3] = mask  # Set alpha channel using mask
@@ -56,12 +66,11 @@ def detect_red_circles(image_path, output_name):
             crop_filename = os.path.join(output_path, f"{output_name}_circle_{i}.png")
             cv2.imwrite(crop_filename, crop_bgra)
 
+            # Save output with drawn circles
+            result_path = os.path.join(output_path, f"{output_name}_detected.png")
+            cv2.imwrite(result_path, output)
 
 
-
-    # Save output with drawn circles
-    result_path = os.path.join(output_path, f"{output_name}_detected.png")
-    cv2.imwrite(result_path, output)
 
 # Process all images in folder
 for file in os.listdir(folder_path):
