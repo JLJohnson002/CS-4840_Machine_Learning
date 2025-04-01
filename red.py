@@ -3,7 +3,7 @@ import numpy as np
 import os
 
 folder_path = r"OriginlTrainImages/Death Star"
-output_path = r"Identified Images"
+output_path = r"Identified Vulnerabilities"
 os.makedirs(output_path, exist_ok=True)
 
 def detect_red_circles(image_path, output_name):
@@ -67,8 +67,8 @@ def detect_red_circles(image_path, output_name):
             cv2.imwrite(crop_filename, crop_bgra)
 
             # Save output with drawn circles
-            result_path = os.path.join(output_path, f"{output_name}_detected.png")
-            cv2.imwrite(result_path, output)
+            # result_path = os.path.join(output_path, f"{output_name}_detected.png")
+            # cv2.imwrite(result_path, output)
 
 
 

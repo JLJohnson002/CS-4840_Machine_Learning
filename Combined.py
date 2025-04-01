@@ -18,10 +18,10 @@ from sklearn.model_selection import train_test_split
 
 os.system("cls")  # FIXME
 
-folder_path = r"TrainImages/NOT Death Star"
+folder_path = r"OriginlTrainImages/NOT Death Star"
 print_path = r"Identified Images"
 itter = 0
-runYOLO = False
+runYOLO = True
 
 if runYOLO:
     for item in os.listdir(folder_path):
@@ -33,16 +33,14 @@ if runYOLO:
 
         # Inference
         model.conf = 0.2  # ADJUST
-        results = model(item_path, size=320)  # old was 320                                 #ADJUST
+        results = model(item_path, size=320)  # old was 320 #ADJUST
 
         # Load the original image
         ori_img = Image.open(item_path)
         for i, (*box, conf, cls) in enumerate(results.xyxy[0]):  # xyxy format
             x1, y1, x2, y2 = map(int, box[:4])  # Extract bounding box
             cropped_img = ori_img.crop((x1, y1, x2, y2))  # Crop region
-            cropped_img.convert("RGB").save(
-                f"{item[:-4]}_cropped_{i}.png"
-            )  # Save the cropped image
+            cropped_img.convert("RGB").save(f"{item[:-4]}_cropped_{i}.png")  # Save the cropped image
         itter += 1
     print("\n YOLO FINISHED\n")
 
@@ -52,7 +50,7 @@ def extract_features(image):
     # Convert the image to RGB (in case it's in BGR)
     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     # Resize the image for consistency
-    image = cv2.resize(image, (512, 512))                    # ADJUST Resizing to 128x128 for simplicity
+    image = cv2.resize(image, (512, 512))           # ADJUST Resizing to 128x128 for simplicity
     # Flatten the image to a 1D vector (128x128x3 pixels)
     return image.flatten()
 
@@ -97,7 +95,6 @@ print("scaled")
 pca = PCA(n_components=2)                               # ADJUST You can adjust the number of components
 print ("PCA IS \n")
 print (pca)
-print (PCA)
 X_pca = pca.fit_transform(X_scaled)
 print("pca")
 
@@ -145,19 +142,3 @@ for each in os.listdir("CroppedTrainImages\\Death Star"):
         print(f"Predicted Label {new_image_path}: {predicted_label}")
         wrongCount += 1
 print (f"Wrong Count = {wrongCount}")
-
-# Step 5: Visualize the decision regions of the trained KNN model
-from mlxtend.plotting import plot_decision_regions
-
-new_x = np.array([[5.0, 3.0]])
-new_y = knn.predict(new_x)
-
-# Plot the original data
-plt.scatter(X[:, 0], X[:, 1], c=y)
-
-# Plot the new data point
-plt.scatter(new_x[0, 0], new_x[0, 1], c='red', marker='x', s=100)
-plt.xlabel('Feature 1')
-plt.ylabel('Feature 2')
-plt.title('KNN Scatter Plot')
-plt.show()
