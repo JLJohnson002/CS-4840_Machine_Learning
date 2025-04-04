@@ -3,7 +3,7 @@ import numpy as np
 import os
 
 folder_path = r"OriginlTrainImages/Death Star"
-output_path = r"Identified Vulnerabilities"
+output_path = r"Red Circles"
 os.makedirs(output_path, exist_ok=True)
 
 def detect_red_circles(image_path, output_name):
