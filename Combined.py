@@ -37,7 +37,7 @@ if runYOLO:
 
         # Inference
         model.conf = 0.1  # ADJUST
-        results = model(item_path, size=1024)  # old was 320 #ADJUST
+        results = model(item_path, size=240)  # old was 320 #ADJUST
 
         # Load the original image
         ori_img = Image.open(item_path)
@@ -159,11 +159,44 @@ if run_KNN:
 
 
     # Example: Predict a new image
-    wrongCount = 0
-    for each in os.listdir("CroppedTrainImages\\Death Star"):
-        new_image_path = "CroppedTrainImages\\Death Star\\" + str(each)
+    # Count = 0
+    # for each in os.listdir("CroppedTrainImages\\Death Star"):
+    #     new_image_path = "CroppedTrainImages\\Death Star\\" + str(each)
+    #     predicted_label = predict_image(new_image_path)
+    #     if predicted_label == "Death Star":
+    #         print(f"Name: {new_image_path}: {predicted_label}")
+    #         print (each)
+    #         Count += 1
+    # print (f"Count = {Count}")
+    import os
+    import shutil
+
+    # Make sure the destination directory exists
+    destination_folder = "CorrectlyIdentified/Death Star"
+    os.makedirs(destination_folder, exist_ok=True)
+
+    Count = 0
+    for each in os.listdir("CroppedTrainImages/Death Star"):
+        new_image_path = os.path.join("CroppedTrainImages", "Death Star", each)
         predicted_label = predict_image(new_image_path)
-        if predicted_label == "NOT Death Star":
-            print(f"Predicted Label {new_image_path}: {predicted_label}")
-            wrongCount += 1
-    print (f"Wrong Count = {wrongCount}")
+
+        if predicted_label == "Death Star":
+            Count += 1
+
+            # Extract the base name
+            base_name = each.split("_cropped")[0]
+
+            # Try both .png and .jpg extensions
+            for ext in [".png", ".jpg"]:
+                original_image_path = os.path.join("OriginlTrainImages", "Death Star", base_name + ext)
+                if os.path.exists(original_image_path):
+                    destination_path = os.path.join(destination_folder, base_name + ext)
+                    shutil.copy(original_image_path, destination_path)
+                    break  # Stop checking after finding one
+            else:
+                print(f"Name: {new_image_path}: {predicted_label}")
+                print(each)
+                print(f"Original image not found for: {base_name}")
+
+    print(f"Count = {Count}")
+
