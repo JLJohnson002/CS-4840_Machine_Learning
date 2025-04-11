@@ -172,7 +172,7 @@ if run_KNN:
     import shutil
 
     # Make sure the destination directory exists
-    destination_folder = "CorrectlyIdentified/Death Star"
+    destination_folder = "Identified"
     os.makedirs(destination_folder, exist_ok=True)
 
     Count = 0
