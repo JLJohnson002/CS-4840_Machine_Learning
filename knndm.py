@@ -11,15 +11,14 @@ from matplotlib import pyplot as plt
 from sklearn import datasets, neighbors
 
 
-# Define a function to extract features (for example, using color histograms)
+# Function to extract features
 def extract_features(image):
-    # Convert the image to RGB (in case it's in BGR)
+    # Convert the image to RGB
     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     # Resize the image for consistency
-    image = cv2.resize(image, (600, 600))  # ADJUST Resizing to 128x128 for simplicity
-    # Flatten the image to a 1D vector (128x128x3 pixels)
+    image = cv2.resize(image, (32, 32))  # ADJUST
+    # Flatten the image to a 1D vector 
     return image.flatten()
-
 
 # Function to load images and labels from a folder
 def load_images_from_folder(folder):
@@ -36,7 +35,7 @@ def load_images_from_folder(folder):
                     labels.append(label)
     return np.array(images), np.array(labels)
 
-# To predict a new image, use the following:
+# Function to predict a new image
 def predict_image(image_path):
     image = cv2.imread(image_path)
     if image is not None:
@@ -62,28 +61,27 @@ for each in cycles:
     y_encoded = le.fit_transform(y)
     # print("transformed")
 
-    # Optionally, apply PCA for dimensionality reduction (if features are large)
+    # Optionally, apply PCA for dimensionality reduction
     scaler = StandardScaler()
     X_scaled = scaler.fit_transform(X, y)
     # print("scaled")
 
-    # Use PCA to reduce the dimensionality if necessary (e.g., for large image sizes)
-    components = 2
-
-    pca = PCA(n_components=components)  # ADJUST You can adjust the number of components
+    # Use PCA to reduce the dimensionality
+    components = 40
+    pca = PCA(n_components=components)  # ADJUST 
     X_pca = pca.fit_transform(X_scaled)
     # print("pca")
 
     # Split the dataset into training and testing sets
     test_size = 0.2
     X_train, X_test, y_train, y_test = train_test_split(
-        X_pca, y_encoded, test_size=test_size, random_state=42
+        X_pca, y_encoded, test_size=test_size, random_state=42 # ADJUST
     )
     # print("split")
 
     # Initialize KNN classifier
-    k_neighbors = 2
-    knn = KNeighborsClassifier(n_neighbors=k_neighbors)  # ADJUST You can tune the number of neighbors
+    k_neighbors = 11
+    knn = KNeighborsClassifier(n_neighbors=k_neighbors)  # ADJUST
     # print("init")
 
     # Train the KNN classifier
@@ -94,12 +92,7 @@ for each in cycles:
     y_pred = knn.predict(X_test)
     # print("predicted")
     # Print classification report to evaluate performance
-    # print("report start")
     print ("Components: "+ str(components))
     print ("Test size: "+ str(test_size))
     print ("Number of neighbors(K): "+ str(k_neighbors))
     print(classification_report(y_test, y_pred, target_names=le.classes_))
-    # print("report end")
-
-
-
