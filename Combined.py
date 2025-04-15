@@ -24,8 +24,8 @@ save_folder = "CroppedTrainImages/NOT Death Star"  # <- your target folder
 
 itter = 0
 saved_itter = 0
-runYOLO = False
-run_KNN = True
+runYOLO = True
+run_KNN = False
 
 if runYOLO:
     for item in os.listdir("OriginlTrainImages/Death Star"):# Death Star
